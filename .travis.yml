@@ -6,6 +6,13 @@ jdk:
   - openjdk6
 env:
   matrix:
-    - GEN_TESTS=true
-    - GEN_TESTS=false
-script: ./travis_build.sh
+    - MODE=Main
+    - MODE=Gentests
+
+before_script: ./travis_build.sh Compile
+script: ./travis_build.sh $MODE
+#In Matrix, should be executed once, placeholder for publishing
+after_success:
+  - echo "ROCK!"
+after_failure:
+  - echo "PITY!"
