@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export JVM_OPTS="-server -Xms2G -Xmx2G -Xss8M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:NewRatio=8 -XX:MaxPermSize=1024M -XX:-UseGCOverheadLimit"
-MODE = $1
+MODE=$1
 
 if [[ $MODE = 'Compile' ]] ; then
   #this echo is required to keep travis alive, because some compilation parts are silent for more than 10 minutes
