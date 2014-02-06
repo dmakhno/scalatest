@@ -4,4 +4,8 @@ scala:
 jdk:
   - oraclejdk7
   - openjdk6
+env:
+  matrix:
+    - GEN_TESTS=true
+    - GEN_TESTS=false
 script: ./travis_build.sh
