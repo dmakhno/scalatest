@@ -6,8 +6,7 @@ export MODE=$1
 if [[ $MODE = 'Compile' ]] ; then
   #this echo is required to keep travis alive, because some compilation parts are silent for more than 10 minutes
   while true; do echo "..."; sleep 60; done &
-  sbt ++$TRAVIS_SCALA_VERSION compile
-  sbt ++$TRAVIS_SCALA_VERSION test:compile #gentests has .dependsOn(scalatest  % "test->test"), so it is common
+  sbt ++$TRAVIS_SCALA_VERSION compile test:compile #gentests has .dependsOn(scalatest  % "test->test"), so it is common
   rc=$?
   kill %1
   exit $rc
@@ -34,7 +33,6 @@ if [[ $MODE = 'Gentests' ]] ; then
   export JVM_OPTS="-server -Xms2G -Xmx6G -Xss8M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:NewRatio=8 -XX:MaxPermSize=1024M -XX:-UseGCOverheadLimit"
   
   while true; do echo "..."; sleep 60; done &
-  sbt ++$TRAVIS_SCALA_VERSION gentests/compile #try to reduce presure on sbt, for OOM
   sbt ++$TRAVIS_SCALA_VERSION gentests/test:compile #try to reduce presure on sbt, for OOM
   sbt ++$TRAVIS_SCALA_VERSION gentests/test
   rc=$?
