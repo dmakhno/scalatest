@@ -7,6 +7,7 @@ if [[ $MODE = 'Compile' ]] ; then
   #this echo is required to keep travis alive, because some compilation parts are silent for more than 10 minutes
   while true; do echo "..."; sleep 60; done &
   sbt ++$TRAVIS_SCALA_VERSION compile
+  sbt ++$TRAVIS_SCALA_VERSION test:compile #gentests has .dependsOn(scalatest  % "test->test"), so it is common
   rc=$?
   kill %1
   exit $rc
@@ -34,6 +35,7 @@ if [[ $MODE = 'Gentests' ]] ; then
   
   while true; do echo "..."; sleep 60; done &
   sbt ++$TRAVIS_SCALA_VERSION gentests/compile #try to reduce presure on sbt, for OOM
+  sbt ++$TRAVIS_SCALA_VERSION gentests/test:compile #try to reduce presure on sbt, for OOM
   sbt ++$TRAVIS_SCALA_VERSION gentests/test
   rc=$?
   kill %1  
