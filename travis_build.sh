@@ -4,7 +4,7 @@ export JVM_OPTS="-server -Xms2048M -Xmx2048M -Xss8M -XX:+CMSClassUnloadingEnable
 #this echo is required to keep travis alive, because some compilation parts are silent for more than 10 minutes
 while true; do echo "..."; sleep 60; done &
 sbt ++$TRAVIS_SCALA_VERSION compile
-sbt ++$TRAVIS_SCALA_VERSION gentests/test
+sbt ++$TRAVIS_SCALA_VERSION "project gentests" "test -- -Xmx5120M"
 kill %1
 
 sbt ++$TRAVIS_SCALA_VERSION testQuick
