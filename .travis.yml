@@ -20,4 +20,5 @@ after_success:
         if [ "$BUILD_AGGREGATE_STATUS" = "others_succeeded" ]; then
           export JVM_OPTS="-server -Xms2G -Xmx2G -Xss8M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:NewRatio=8 -XX:MaxPermSize=1024M -XX:-UseGCOverheadLimit"
           sbt publishLocal
+        fi
       fi
