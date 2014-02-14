@@ -7,12 +7,17 @@ jdk:
 env:
   matrix:
     - MODE=Main
-    - MODE=Gentests
+    #- MODE=Gentests
 
 before_script: ./travis_build.sh Compile
 script: ./travis_build.sh $MODE
-#In Matrix, should be executed once, placeholder for publishing
 after_success:
-  - echo "ROCK!"
-after_failure:
-  - echo "PITY!"
+  - curl -o travis_after_all.py https://raw.github.com/dmakhno/travis_after_all/master/travis_after_all.py
+  - python travis_after_all.py
+  - export $(cat .to_export_back)
+  - |
+      if [ "$BUILD_LEADER" = "YES" ]; then
+        if [ "$BUILD_AGGREGATE_STATUS" = "others_succeeded" ]; then
+          export JVM_OPTS="-server -Xms2G -Xmx2G -Xss8M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:NewRatio=8 -XX:MaxPermSize=1024M -XX:-UseGCOverheadLimit"
+          sbt publishLocal
+      fi
